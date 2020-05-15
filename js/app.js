@@ -24,7 +24,6 @@ function init() {
         menos: '-',
         por: '*',
         dividido: '/',
-        signo: '-'
     };
 
     document.body.onclick = function (e) {
@@ -35,7 +34,7 @@ function init() {
         var valor = arr_valor[pos];
 
         sign.onclick = function(e){
-        display.textContent =  "-" + display.textContent;
+       display.textContent =  "-" + display.textContent;
     }
 
         if (target.getAttribute('class') == 'tecla') {
@@ -59,7 +58,7 @@ function init() {
                     }
                 }
 
-              }  else if (value == 'igual') {
+            } else if (value == 'igual') {
                 if (arr_valor.length >= 3) {
                     //Recorro el arreglo para calcular las operaciones
 
@@ -90,6 +89,12 @@ function init() {
                     arr_valor.push(resultado);
 
                 }
+            } else if (value == 'sign') {
+                if (display.textContent.length == '1' && display.textContent == '0') {
+                    let sing = '-';
+                    arr_valor.push(sing);
+                    display.textContent = sing;
+                }
             } else {
 
                 if (display.textContent.length >= '1') {
@@ -100,6 +105,9 @@ function init() {
                         if (number != 0) {
                             arr_valor.push(number);
                         }
+                    } else if (display.textContent.length == '1' && display.textContent == '-') {
+                        arr_valor.splice(pos, 1, valor.toString() + number);
+                        display.textContent = display.textContent + number;
                     } else {
 
                         if (arr_valor.length == 0 && number != 0) {
@@ -108,17 +116,21 @@ function init() {
                         } else {
                             if (valor.toString().match(/\.$/) == null) {
                                 if (valor.toString().match(expr) == null) {
-                                    arr_valor.splice(pos, 1, valor.toString() + number);
-
+                                    if (valor.toString().length < '8') {
+                                        arr_valor.splice(pos, 1, valor.toString() + number);
+                                    }
                                 } else {
                                     arr_valor.push(number);
                                 }
                             } else {
-                                arr_valor.splice(pos, 1, valor.toString() + number);
+                                if (valor.toString().length < '8') {
+                                    arr_valor.splice(pos, 1, valor.toString() + number);
+                                }
                             }
                         }
-                        display.textContent = display.textContent + number;
-
+                        if (valor.toString().length < '8') {
+                            display.textContent = display.textContent + number;
+                        }
                     }
                 }
             }
